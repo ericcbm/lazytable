@@ -2,6 +2,8 @@ package eu.wewox.lazytable
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
@@ -61,6 +63,14 @@ public class LazyTableState(
     private val translateX: Float get() = minaBoxState.translate?.x ?: 0f
 
     private val translateY: Float get() = minaBoxState.translate?.y ?: 0f
+
+    public val canScrollHorizontallyForward: Boolean by derivedStateOf { translateX < (minaBoxState.translate?.maxX ?: Float.MAX_VALUE) }
+
+    public val canScrollHorizontallyBackward: Boolean by derivedStateOf { translateX > 0 }
+
+    public val canScrollVerticallyForward: Boolean by derivedStateOf { translateY < (minaBoxState.translate?.maxY ?: Float.MAX_VALUE) }
+
+    public val canScrollVerticallyBackward: Boolean by derivedStateOf { translateY > 0 }
 
     /**
      * The underlying [MinaBoxState] used to this state.
